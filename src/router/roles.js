@@ -24,15 +24,8 @@ RoleRouter.route('/:id')
         console.log(findUser._doc)
         res.status(200).send(findUser._doc)
     })
-    .patch((req, res) => {
-        if (req.body._id) {
-            delete req.body._id;
-        }
-        for (let p in req.body) {
-            req.role[p] = req.body[p]
-        }
-        req.role.save()
-        res.json(req.role)
+    .patch(async(req, res) => {
+        await Role.findByIdAndUpdate(req.params.id, req.body)
     })
     .delete(async(req, res) => {
         try{
